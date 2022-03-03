@@ -1,0 +1,68 @@
+#include <chrono>
+#include <ctime>
+#include <iostream>
+#include <random>
+
+int main() {
+    std::srand(std::time(0));
+    int n = 10;
+    int m = 10;
+
+    int a[n][m] = {};
+    // Filling the crystal with ballz.
+    int target_number = 8;
+    int done = 0;
+    while (done < target_number) {
+        int x = rand() % n;
+        int y = rand() % m;
+        if (a[x][y] == 0) {//ete datarka vandaky masnik dir u gumari 1
+            a[x][y] = 1;
+            ++done;
+        }
+    }
+    // a[i][j] == 1 if there is a 1ball in cell (i, j), a[i][j] == 0 else.
+    // a[x][y] == 1 if there is a 1ball in cell (x, y), a[x][y] == 0 else.
+    const int di[] = {0, 0, 1, -1};
+    const int dj[] = {1, -1, 0, 0};
+    int steps = 0;
+    while (true) {  //anyndhat katarel gorcoxutyuny
+        bool finished = true; //pahenq chisht popoxakan
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (a[i][j] == 0 or j == 0 or j == m - 1)
+                    continue;
+                if (n > 1 and (i == 0 or i == n - 1 or a[i + 1][j] != 0 or a[i - 1][j] != 0))
+                    continue;
+                if (a[i][j + 1] != 0 or a[i][j - 1] != 0)
+                    continue;
+                a[i][j] = 2;
+                finished = false;
+            }
+        }
+        if (finished)
+            break;
+        ++steps;
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (a[i][j] == 2) {
+                    int direction = rand() % 4;
+                    int newi = i + di[direction];
+                    int newj = j + dj[direction];
+                    if (a[newi][newj] == 0) { // stugenq vor nor koordinaty datarka
+                        a[i][j] = 0;
+                        a[newi][newj] = 1;
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) { //ancnenq bolor vandakneri vrayov
+                if (a[i][j] == 2)
+                    a[i][j] = 1;
+            }
+        }
+    }
+    std::cout << "steps = "<< steps << " ";
+}
