@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+struct Data{
+    string name;
+    unsigned long tel;
+    string email;
+};
+
+// Phone[i] == *(Phone + i)
+//search by name
+// len book has lenght of N
+Data find_by_name(string name, Data* Phone, unsigned long lenght_book){ ///pointing data with phone data
+    for (unsigned long i = 0; i < lenght_book; ++i) {
+        if(name == Phone[i].name)
+            return Phone[i];
+    }
+    Data answer = {"no roads found", 0, ""};
+    return answer;
+}
+
+//search by numer 
+Data find_by_number(unsigned long phone, Data* Phone, unsigned long len_book){ 
+    for (unsigned long i = 0; i < len_book; ++i) {
+        if(phone == Phone[i].tel) 
+            return Phone[i];
+    }
+    Data answer = {"no roads found", 0, ""};
+    return answer;
+}
+//data inside of contacts 
+void print(Data triplet){
+    cout << triplet.name << " ," << triplet.tel << " ," << triplet.email << endl;
+}
+
+int main() {
+    
+    unsigned long N = 3;
+    
+    Data* Book = new Data[N];
+    
+  /// my contacts   
+    Book[0] = {"Xachik", 666, "gopniki_armyane@armenia.am"};
+    Book[1] = {"Vachik", 777, "srtitagavor@mail.ru"};
+    Book[2] = {"Hrachik", 111, "mrut.jana@yahoo.com"};
+
+    auto Xachik = find_by_number(9999, Book, N);
+    print(Xachik);
+    
+    auto Vachik = find_by_name("Vachik", Book, N);
+    print(Vachik);
+    
+    return 0;
+}
