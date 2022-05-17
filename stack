@@ -1,0 +1,80 @@
+#include <iostream>
+
+using namespace std;
+
+struct st_data {
+    const char *name;
+    double val;
+};
+
+struct StackNode {
+    st_data data;
+  StackNode *next; //ссылка на след ноду
+};
+
+struct stack {
+public:
+    void push(st_data Node) {
+        auto node = new StackNode; //выделяем память для ноды
+        node->data = Node;
+        node->next = top; 
+        top = node; //topin talis enq node-i arjeqy, vor myus angam ssilkan tani verjin node
+    }
+
+    st_data pop() {
+        if(top == nullptr) return {"Stack is empty"};
+        auto Node = top->data; // сохраняем инфо про ноду которую хотим стереть
+        auto top_prev = top; // новой переменной присваеваем топ, который будем стирать
+        top = top->next; // делаем новый топ, который будет следующей нодой
+        delete top_prev; // стираем ноду 
+        return Node; // возвращеем инфу о ноде которую стерли
+    }
+
+    StackNode *head() {
+        return top; 
+    }
+
+private:
+    StackNode *top = nullptr;
+};
+
+void print_list(StackNode const *head) {
+    auto tmp = head;
+    while (tmp != nullptr) {
+        cout << tmp->data.name << " " << tmp->data.val << endl;
+        tmp = tmp->next;  
+    }
+}
+//В переменной tmp держим текущий узел.печатаем его значение и переходим к следующему
+//Пока узлы не закончились
+
+int main() {
+    stack *Stack = new stack;
+
+    print_list(Stack->head());
+    cout << "\n";
+    Stack->push({"Jenya", 188});
+    print_list(Stack->head());
+    cout << "\n";
+    Stack->push({"Anya", 157});
+    print_list(Stack->head());
+    cout << "\n";
+    auto Node = Stack->pop();
+    cout << "Pop " << Node.name << " " << Node.val << endl;
+    cout << "\n";
+    print_list(Stack->head());
+    cout << "\n";
+    Node = Stack->pop();
+    cout << "Pop " << Node.name << " " << Node.val << endl;
+    cout << "\n";
+    print_list(Stack->head());
+    cout << "\n";
+    Node = Stack->pop();
+    cout << "Pop " << Node.name << " " << Node.val << endl;
+    cout << "\n";
+    print_list(Stack->head());
+    cout << "\n";
+    Stack->push({"Anya", 157});
+    print_list(Stack->head());
+    return 0;
+}
